@@ -28,6 +28,24 @@ class ArticleController extends Controller
     }
 
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
+    {
+        $data = $request->all();
+        $data['launches'] = is_array($data['launches']) ? json_encode($data['launches']) : $data['launches'];
+        $data['events'] = is_array($data['events']) ? json_encode($data['events']) : $data['events'];
+
+        $article = Article::create($data);
+
+        return response()->json($article, 201);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -40,16 +58,6 @@ class ArticleController extends Controller
         return response()->json($article, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
