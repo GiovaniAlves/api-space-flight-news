@@ -89,6 +89,9 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+        $article->delete();
+
+        return response('', 204);
     }
 }
