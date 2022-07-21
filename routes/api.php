@@ -9,4 +9,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/obtain-articles', [GetArticlesController::class, 'obtainArticles']);
 
 Route::get('/', [ArticleController::class, 'message']);
-Route::resource('articles', ArticleController::class);
+Route::get('/articles', [ArticleController::class, 'index']);
+Route::get('/articles/{id}', [ArticleController::class, 'show']);
+
