@@ -2,50 +2,70 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class ArticleController extends Controller
 {
     /**
      * @return \Illuminate\Http\Response
      */
-    public function obtainArticles()
+    public function message()
     {
-        $articlesQuantity = $this->getArticleQuantity();
-        $articles = Http::get(env('URL_SPACE_FLIGHT_NEWS') . "/articles?_limit={$articlesQuantity}");
-
-        $this->registerArticles($articles->json());
-
-        return response('Registered with success!', 200);
+        return response('Fullstack Challenge 2022 🏅 - Space Flight News', 200);
     }
 
     /**
-     * @return int
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
      */
-    public function getArticleQuantity() : int
+    public function index()
     {
-        $quantity = Http::get(env('URL_SPACE_FLIGHT_NEWS'). '/articles/count');
-
-        return intval($quantity->body());
+        //
     }
 
     /**
-     * @param mixed $articles
-     * @return void
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function registerArticles(mixed $articles) : void
+    public function show($id)
     {
-        foreach ($articles as $value) {
-            $data = $value;
+        //
+    }
 
-            $data['publishedAt'] = Carbon::parse($data['publishedAt'])->format('Y-m-d H:i:s');
-            $data['updatedAt'] = Carbon::parse($data['updatedAt'])->format('Y-m-d H:i:s');
-            $data['launches'] = is_array($data['launches']) ? json_encode($data['launches']) : $data['launches'];
-            $data['events'] = is_array($data['events']) ? json_encode($data['events']) : $data['events'];
-            Article::create($data);
-        }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
     }
 }
