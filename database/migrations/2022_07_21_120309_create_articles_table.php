@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id')->nullable()->primary();
             $table->string('title');
             $table->string('url')->unique();
-            $table->string('imageUrl')->unique();
+            $table->string('imageUrl');
             $table->string('newsSite');
             $table->text('summary');
-            $table->dateTimeTz('publishedAt');
-            $table->dateTimeTz('updatedAt');
+            $table->dateTime('publishedAt');
+            $table->dateTime('updatedAt');
             $table->boolean('featured')->default(false);
             $table->longText('launches')->nullable();
             $table->longText('events')->nullable();

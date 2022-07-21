@@ -12,5 +12,6 @@ class Article extends Model
     const CREATED_AT = null;
     const UPDATED_AT = null;
 
-    protected $fillable = ['title', 'imageUrl', 'newsSite', 'summary', 'featured'];
+    protected $fillable = ['id', 'title', 'url', 'imageUrl', 'newsSite', 'summary', 'publishedAt', 'updatedAt',
+        'featured', 'launches', 'events'];
 }
