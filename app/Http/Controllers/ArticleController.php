@@ -37,6 +37,7 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
         $data['launches'] = is_array($data['launches']) ? json_encode($data['launches']) : $data['launches'];
         $data['events'] = is_array($data['events']) ? json_encode($data['events']) : $data['events'];
 
@@ -64,11 +65,20 @@ class ArticleController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
-        //
+        $article = Article::find($id);
+
+        $data = $request->all();
+
+        $data['launches'] = is_array($data['launches']) ? json_encode($data['launches']) : $data['launches'];
+        $data['events'] = is_array($data['events']) ? json_encode($data['events']) : $data['events'];
+
+        $article->update($data);
+
+        return response()->json($article, 200);
     }
 
     /**
