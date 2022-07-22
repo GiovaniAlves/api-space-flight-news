@@ -54,7 +54,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $article = Article::find($id);
+        $article = Article::findorfail($id);
 
         return response()->json($article, 200);
     }

@@ -36,4 +36,6 @@ RUN pecl install -o -f redis \
 # Set working directory
 WORKDIR /var/www
 
+COPY crontab /etc/crontabs/root
+
 USER $user
