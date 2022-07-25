@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Article;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 
 class GetArticlesController extends Controller
@@ -14,8 +15,8 @@ class GetArticlesController extends Controller
      */
     public function obtainArticles()
     {
-        $articlesQuantity = $this->getArticleQuantity();
-        $articles = Http::get(env('URL_SPACE_FLIGHT_NEWS') . "/articles?_limit={$articlesQuantity}");
+        $qtyArticles = $this->getArticleQuantity();
+        $articles = Http::get(env('URL_SPACE_FLIGHT_NEWS') . "/articles?_limit={$qtyArticles}");
 
         $this->registerArticles($articles->json());
 
@@ -48,4 +49,5 @@ class GetArticlesController extends Controller
             Article::create($data);
         }
     }
+
 }

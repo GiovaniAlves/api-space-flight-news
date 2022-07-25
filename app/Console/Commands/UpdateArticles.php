@@ -2,8 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Article;
+use App\Models\Test;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 
 class UpdateArticles extends Command
 {
@@ -28,6 +32,43 @@ class UpdateArticles extends Command
      */
     public function handle()
     {
-        Log::info('Executing update articles');
+        $qtyArticles = $this->getArticleQuantity();
+
+        $articlesSpaceNews = Http::get(env('URL_SPACE_FLIGHT_NEWS') . "/articles?_limit={$qtyArticles}");
+        $articlesLocal = Article::all();
+
+        //Get Ids as array of existing na API da Space Flight News
+        $idsSpaceNews = Arr::pluck($articlesSpaceNews->json(), 'id');
+        //Get Ids as array of existing na API Local
+        $idsSpaceNewsLocal = Arr::pluck($articlesLocal, 'id');
+
+        //Find articles to add (in other words - have at the 'idsSpaceNews' and there (is not) at the 'idsSpaceNewsLocal')
+        // - Return array of ids
+        $toAdd = array_diff($idsSpaceNews, $idsSpaceNewsLocal);
+
+        foreach ($toAdd as $articleId) {
+            //searching on the basis of the article (ID) the position of the array that contains the article data of that (ID)
+            $id = array_search($articleId, array_column($articlesSpaceNews->json(), 'id'));
+
+            $data = $articlesSpaceNews->json()[$id];
+
+            $data['publishedAt'] = Carbon::parse($data['publishedAt'])->format('Y-m-d H:i:s');
+            $data['updatedAt'] = Carbon::parse($data['updatedAt'])->format('Y-m-d H:i:s');
+            $data['launches'] = is_array($data['launches']) ? json_encode($data['launches']) : $data['launches'];
+            $data['events'] = is_array($data['events']) ? json_encode($data['events']) : $data['events'];
+            Article::create($data);
+        }
+
+        return 0;
+    }
+
+    /**
+     * @return int
+     */
+    private function getArticleQuantity() : int
+    {
+        $quantity = Http::get(env('URL_SPACE_FLIGHT_NEWS'). '/articles/count');
+
+        return intval($quantity->body());
     }
 }
