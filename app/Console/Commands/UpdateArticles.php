@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Article;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 
@@ -44,9 +47,9 @@ class UpdateArticles extends Command
            // - Return array of ids
            $toAdd = array_diff($idsSpaceNews, $idsSpaceNewsLocal);
 
-           foreach ($toAdd as $articleId) {
-               //searching on the basis of the article (ID) the position of the array that contains the article data of that (ID)
-               $id = array_search($articleId, array_column($articlesSpaceNews->json(), 'id'));
+           foreach ($toAdd as $articleIdToAdd) {
+               //Search the space fight news json for the ID in the array that contains the article data to add locally
+               $id = array_search($articleIdToAdd, array_column($articlesSpaceNews->json(), 'id'));
 
                $data = $articlesSpaceNews->json()[$id];
 
