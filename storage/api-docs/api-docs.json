@@ -1,0 +1,249 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Space Flight News",
+        "description": "API Space Fight News description",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8989/api"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "tags": [
+                    "/"
+                ],
+                "summary": "Displaying the welcome message",
+                "description": "Displaying the welcome message",
+                "operationId": "584b2fd4a015beaef95c4c8970750483",
+                "responses": {
+                    "200": {
+                        "description": "Welcome Message"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/articles": {
+            "get": {
+                "tags": [
+                    "/articles"
+                ],
+                "summary": "Displaying all articles",
+                "description": "Displaying all articles",
+                "operationId": "89181b74a8aa4d580750ede6aa32f92a",
+                "responses": {
+                    "200": {
+                        "description": "All articles - Paged every 15 items"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "/articles"
+                ],
+                "summary": "Store a newly created article in storage.",
+                "description": "Store a new article on databse",
+                "operationId": "ce06e2544b80bc76b184c771c0fb2e7e",
+                "requestBody": {
+                    "description": "Article to create",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "url": {
+                                        "type": "string"
+                                    },
+                                    "imageUrl": {
+                                        "type": "string"
+                                    },
+                                    "newsSite": {
+                                        "type": "string"
+                                    },
+                                    "summary": {
+                                        "type": "string"
+                                    },
+                                    "publishedAt": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "updatedAt": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "launches": {
+                                        "type": "object"
+                                    },
+                                    "events": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "New article created"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/articles/{article}": {
+            "get": {
+                "tags": [
+                    "/articles"
+                ],
+                "summary": "Displaying the specified article",
+                "description": "Show article",
+                "operationId": "eebdfd917b989bf9c6c551e98bc776ff",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "Article Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Show article"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "/articles"
+                ],
+                "summary": "Update the specified article in storage.",
+                "description": "Update a article on databse",
+                "operationId": "b77d56981a88ec4be0c93e06d334f74f",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "Article Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Article to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "url": {
+                                        "type": "string"
+                                    },
+                                    "imageUrl": {
+                                        "type": "string"
+                                    },
+                                    "newsSite": {
+                                        "type": "string"
+                                    },
+                                    "summary": {
+                                        "type": "string"
+                                    },
+                                    "publishedAt": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "updatedAt": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "launches": {
+                                        "type": "object"
+                                    },
+                                    "events": {
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Article updated"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "/articles"
+                ],
+                "summary": "Remove the specified article.",
+                "description": "Remove article on database",
+                "operationId": "9ee91bc5331371f5a1b884fd17b19279",
+                "parameters": [
+                    {
+                        "name": "article",
+                        "in": "path",
+                        "description": "Article Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Article deleted"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    }
+}

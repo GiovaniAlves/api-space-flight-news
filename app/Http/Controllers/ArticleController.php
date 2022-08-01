@@ -3,14 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\User;
-use App\Notifications\UserNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class ArticleController extends Controller
 {
     /**
+     * @OA\Get(
+     *     tags={"/"},
+     *     path="/",
+     *     summary="Displaying the welcome message",
+     *     security={{"bearerAuth": {}}},
+     *     description="Displaying the welcome message",
+     *     @OA\Response(
+     *          response="200", description="Welcome Message"
+     *     )
+     * )
+     *
      * @return \Illuminate\Http\Response
      */
     public function message()
@@ -19,7 +27,16 @@ class ArticleController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     tags={"/articles"},
+     *     path="/articles",
+     *     summary="Displaying all articles",
+     *     security={{"bearerAuth": {}}},
+     *     description="Displaying all articles",
+     *     @OA\Response(
+     *          response="200", description="All articles - Paged every 15 items"
+     *     )
+     * )
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -31,7 +48,34 @@ class ArticleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     tags={"/articles"},
+     *     summary="Store a newly created article in storage.",
+     *     description="Store a new article on databse",
+     *     path="/articles",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *          description="Article to create",
+     *          required=true,
+     *          @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(
+     *                  @OA\Property(property="title", type="string"),
+     *                  @OA\Property(property="url", type="string"),
+     *                  @OA\Property(property="imageUrl", type="string"),
+     *                  @OA\Property(property="newsSite", type="string"),
+     *                  @OA\Property(property="summary", type="string"),
+     *                  @OA\Property(property="publishedAt", type="string", format="date-time"),
+     *                  @OA\Property(property="updatedAt", type="string", format="date-time"),
+     *                  @OA\Property(property="launches", type="object"),
+     *                  @OA\Property(property="events", type="object"),
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="201", description="New article created"
+     *     )
+     * )
      *
      * @param \Illuminate\Http\Request $request
      *
@@ -50,7 +94,23 @@ class ArticleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     tags={"/articles"},
+     *     path="/articles/{article}",
+     *     summary="Displaying the specified article",
+     *     security={{"bearerAuth": {}}},
+     *     description="Show article",
+     *     @OA\Parameter(
+     *          description="Article Id",
+     *          in="path",
+     *          name="article",
+     *          required=true,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response="200", description="Show article"
+     *     )
+     * )
      *
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
@@ -64,7 +124,41 @@ class ArticleController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     tags={"/articles"},
+     *     summary="Update the specified article in storage.",
+     *     description="Update a article on databse",
+     *     path="/articles/{article}",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Parameter(
+     *          description="Article Id",
+     *          in="path",
+     *          name="article",
+     *          required=true,
+     *          @OA\Schema(type="integer", format="int64" )
+     *     ),
+     *     @OA\RequestBody(
+     *          description="Article to update",
+     *          required=true,
+     *          @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(
+     *                  @OA\Property(property="title", type="string"),
+     *                  @OA\Property(property="url", type="string"),
+     *                  @OA\Property(property="imageUrl", type="string"),
+     *                  @OA\Property(property="newsSite", type="string"),
+     *                  @OA\Property(property="summary", type="string"),
+     *                  @OA\Property(property="publishedAt", type="string", format="date-time"),
+     *                  @OA\Property(property="updatedAt", type="string", format="date-time"),
+     *                  @OA\Property(property="launches", type="object"),
+     *                  @OA\Property(property="events", type="object"),
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *          response="200", description="Article updated"
+     *     )
+     * )
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -85,8 +179,23 @@ class ArticleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
+     * @OA\Delete(
+     *     tags={"/articles"},
+     *     path="/articles/{article}",
+     *     summary="Remove the specified article.",
+     *     security={{"bearerAuth": {}}},
+     *     description="Remove article on database",
+     *     @OA\Parameter(
+     *          description="Article Id",
+     *          in="path",
+     *          name="article",
+     *          required=true,
+     *          @OA\Schema(type="integer", format="int64")
+     *     ),
+     *     @OA\Response(
+     *          response="204", description="Article deleted"
+     *     )
+     * )
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
